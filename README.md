@@ -1,9 +1,6 @@
 # Command Line Flashcards
 Very simple program to simulate the use of flashcards within the command line.
 
-# Reason for making this
-Used quizlet and was charged to create more than a couple sets of flashcards, and I just think it'll be fun
-
 # How to use
 Compile the program with your favorite C++ compiler,
 Type your question entries in a file named "questions.txt" seperated by newlines in the same directory
