@@ -9,6 +9,7 @@
 #include <vector>
 #include <fstream>
 #include <stack>
+#include "generations.hpp"
 
 /////////////
 ////USING////
@@ -23,16 +24,13 @@ using std::srand;
 using std::rand;
 using std::vector;
 using std::ifstream;
-using std::stack;
 
 /////////////////
 ////CONSTANTS////
 /////////////////
 
-const int MAX = 1024;
-const int HEX = 16;
-const string DIGITS = "012345689ABCDEFGHIJKLMNOPQRSTUIWXYZabcdefghijklmnopqrstuvwxyz+/";
-string generators[MAX];
+const int MAX_QUESTIONS = 1024;
+string generators[MAX_QUESTIONS];
 
 ///////////////
 ////GLOBALS////
@@ -55,7 +53,7 @@ size_t questionCount = 0;
  *   This function returns an integer, which is how many lines were scanned;
  */
 int
-scanTextFile(string arrOut[MAX], string file);
+scanTextFile(string arrOut[MAX_QUESTIONS], string file);
 
 /*
  * NAME
@@ -92,28 +90,6 @@ chooseIndex(const bool* chosen);
 
 /*
  * NAME
- *   convertDecimalToHex - converts decimal number to hexadecimal
- * 
- * DESCRIPTION
- *   convertDecimalToHex takes one parameter, a size_t.
- *   This function will return a string, this string will be the hexadecimal equivalent to the decimal number that was entered.
- */
-string
-convertDecimalToHex (size_t decimal);
-
-/*
- * NAME
- *   convertDecimalToBase - converts decimal number to a number in a different base up to base64
- * 
- * DESCRIPTION
- *   convertDecimalToBase takes two parameters, a size_t, and an int.
- *   This function will return a string, this string is representative of the same decimal number that was entered in the base that was also entered.
- */
-string
-convertDecimalToBase (size_t decimal, int base);
-
-/*
- * NAME
  *   scanGenerator - scans through the generators for keywords
  *
  * DESCRIPTION
@@ -124,7 +100,7 @@ convertDecimalToBase (size_t decimal, int base);
  *   This function will return a bool, true if a match was found, false if a match wasn't found.
  */
 bool
-scanGenerator (int& index, const string& generate, int genCount);
+scanGenerator (int& i, const string& generate, int genCount);
 
 /*
  * NAME
@@ -146,10 +122,10 @@ generateQuestion (int index, const string& generate);
 int
 main()
 {
-  string questions[MAX];
-  questionCount = scanTextFile(questions, "questions.txt") - 1;
+  static string questions[MAX_QUESTIONS];
+  static string answers[MAX_QUESTIONS];
 
-  string answers[MAX];
+  questionCount = scanTextFile(questions, "questions.txt") - 1;
   scanTextFile(answers, "answers.txt");
 
   askQuestions(questions, answers);
@@ -158,7 +134,7 @@ main()
 }
 
 int
-scanTextFile(string arrOut[MAX], string file)
+scanTextFile(string arrOut[MAX_QUESTIONS], string file)
 {
   int lineCount = 0;
   ifstream fileIn(file);
@@ -167,7 +143,7 @@ scanTextFile(string arrOut[MAX], string file)
   {
     string line;
 
-    for (int i = 0; !fileIn.fail() || i >= MAX; ++i, ++lineCount)
+    for (int i = 0; !fileIn.fail() || i >= MAX_QUESTIONS; ++i, ++lineCount)
       getline(fileIn, arrOut[i]);
 
     fileIn.close();
@@ -180,9 +156,9 @@ scanTextFile(string arrOut[MAX], string file)
 bool*
 initBools(bool value)
 {
-  static bool arrOut[MAX];
+  static bool arrOut[MAX_QUESTIONS];
 
-  for (int i = 0; i < MAX; ++i)
+  for (int i = 0; i < MAX_QUESTIONS; ++i)
     arrOut[i] = value;
 
   return arrOut;
@@ -193,13 +169,13 @@ askQuestions(const string* questions, const string* answers)
 {
   bool* answered = initBools(false);
   string question, answer;
-  int generatorIndex, generatorCount;
+  //int generatorIndex, generatorCount;
 
   // TODO
   // Add feature that creates problems for you
   // e.g. B2U (random number)
   // Will probably be done by making this array of strings one that will be scanned to determine keyword like "B2U" from the question, and then generating a random B2U problem
-  generatorCount = scanTextFile(generators, "generators.txt") - 1;
+  //generatorCount = scanTextFile(generators, "generators.txt") - 1;
 
   // Set "seed" for random questions
   srand(time(0));
@@ -209,10 +185,10 @@ askQuestions(const string* questions, const string* answers)
   {
     randomQuestion = chooseIndex(answered);
 
-    if (scanGenerator(generatorIndex, questions[randomQuestion], generatorCount))
-      question = generateQuestion(generatorIndex, answer);
+    //if (scanGenerator(generatorIndex, questions[randomQuestion], generatorCount))
+    //  question = generateQuestion(generatorIndex, answer);
 
-    else
+    //else
       question = questions[randomQuestion];
 
     // Ask question
@@ -244,45 +220,17 @@ chooseIndex(const bool* chosen)
   return randomIndex;
 }
 
-string
-convertDecimalToHex (size_t decimal)
-{
-  return convertDecimalToBase (decimal, HEX);
-}
-
-string
-convertDecimalToBase (size_t decimal, int base)
-{
-  stack<char> s;
-
-  do
-  {
-    s.push(DIGITS[decimal % base]);
-    decimal /= base;
-  } while(decimal > 0);
-
-  string output = "";
-
-  while (!s.empty())
-  {
-    output += s.top();
-    s.pop();
-  }
-
-  return output;
-}
-
 bool
-scanGenerator (int& index, const string& generate, int genCount)
+scanGenerator (int& i, const string& generate, int genCount)
 {
-  for (int i = 0; i < genCount; ++i)
+  for (i = 0; i < genCount; ++i)
     if (generators[i] == generate)
       return true;
   return false;
 }
 
 string
-generateQuestion (int index, const string& generate)
+generateQuestion (int index, string& answer) 
 {
-  return "";
+  return "Hello World!";
 }
