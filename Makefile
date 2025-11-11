@@ -5,13 +5,13 @@ CXX = g++
 CXXFLAGS = -Wall -O3
 
 # Target executable
-TARGET = flashcards
+TARGET = flashcardDriver
 
 # For deleting the target
-TARGET_DEL = flashcards
+TARGET_DEL = flashcardDriver
 
 # Source files
-SRCS = flashcards.cpp generations.cpp
+SRCS = flashcardDriver.cpp flashcards.cpp generations.cpp
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)

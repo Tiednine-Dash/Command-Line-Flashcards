@@ -1,19 +1,4 @@
-////////////////
-////INCLUDES////
-////////////////
-
-#include <iostream>
-#include <string>
-#include <cstdlib>
-#include <ctime>
-#include <vector>
-#include <fstream>
-#include <stack>
-#include "generations.hpp"
-
-/////////////
-////USING////
-/////////////
+#include "flashcards.hpp"
 
 using std::cout;
 using std::cin;
@@ -24,114 +9,6 @@ using std::srand;
 using std::rand;
 using std::vector;
 using std::ifstream;
-
-/////////////////
-////CONSTANTS////
-/////////////////
-
-const int MAX_QUESTIONS = 1024;
-string generators[MAX_QUESTIONS];
-
-///////////////
-////GLOBALS////
-///////////////
-
-size_t questionCount = 0;
-
-///////////////
-////HEADERS////
-///////////////
-
-/* 
- * NAME 
- *   scanTextFile - insert each line of a text file into an array of strings
- *
- * DESCRIPTION
- *   scanTextFile takes two parameters, an array of strings, and a string for the file.
- *   This array of strings will be where each line of the text file will be inserted into.
- *   The file string is the path within the working directory where the text file will be located.
- *   This function returns an integer, which is how many lines were scanned;
- */
-int
-scanTextFile(string arrOut[MAX_QUESTIONS], string file);
-
-/*
- * NAME
- *   initBools - initialize an array of booleans to value
- *
- * DESCRIPTION
- *   initBools takes one parameter, a boolean value.
- *   This function will return an array of booleans that is initialized to all be the same value as value.
- */
-bool*
-initBools(bool value);
-
-/*
- * NAME
- *   askQuestions - ask questions
- *
- * DESCRIPTION
- *   ask questions :>
- *   Not sure why I felt the need to turn this into a seperate function but here we are.
- */
-void
-askQuestions(const string* questions, const string* answers);
-
-/*
- * NAME
- *   chooseIndex - chooses random unchosen number
- *
- * DESCRIPTION
- *   chooseIndex takes one parameter, an array of booleans.
- *   This function will return an integer, this integer will be chosen at random as is guarenteed to not have been chosen since the beginning of the askQuestions function.
- */
-int
-chooseIndex(const bool* chosen);
-
-/*
- * NAME
- *   scanGenerator - scans through the generators for keywords
- *
- * DESCRIPTION
- *   scanGenerator takes three parameters, an int, a string, and an int
- *   The first int is used to grab the index of the keyword in the string array and will overwrite whatever value was passed in for that index.
- *   The string is the potential keyword.
- *   The second int is the about of generators there are, is used for better optimization when scanning through the generators array.
- *   This function will return a bool, true if a match was found, false if a match wasn't found.
- */
-bool
-scanGenerator (int& i, const string& generate, int genCount);
-
-/*
- * NAME
- *   generateQuestion - generates question using value from generators as template to create a question
- * 
- * DESCRIPTION
- *   generateQuestion takes one parameter, an int, and a string.
- *   The int is the index in generators that contains the template of the question
- *   The string is the answer to the question that was generated, and will overwrite whatever value was passed in for the answer.
- *   This function will return a string, which is the question that will be displayed to the user.
- */
-string
-generateQuestion (int index, const string& generate);
-
-/////////////////
-////FUNCTIONS////
-/////////////////
-
-int
-main()
-{
-  static string questions[MAX_QUESTIONS];
-  static string answers[MAX_QUESTIONS];
-
-  questionCount = scanTextFile(questions, "questions.txt") - 1;
-  scanTextFile(answers, "answers.txt");
-
-  askQuestions(questions, answers);
-
-  return EXIT_SUCCESS;
-}
 
 int
 scanTextFile(string arrOut[MAX_QUESTIONS], string file)
@@ -165,16 +42,17 @@ initBools(bool value)
 }
   
 void
-askQuestions(const string* questions, const string* answers)
+askQuestions(const string* questions, const string* answers, size_t questionCount)
 {
   bool* answered = initBools(false);
   string question, answer;
-  //int generatorIndex, generatorCount;
+  //size_t generatorIndex, generatorCount;
 
   // TODO
   // Add feature that creates problems for you
   // e.g. B2U (random number)
   // Will probably be done by making this array of strings one that will be scanned to determine keyword like "B2U" from the question, and then generating a random B2U problem
+  //static string generators[MAX_QUESTIONS];
   //generatorCount = scanTextFile(generators, "generators.txt") - 1;
 
   // Set "seed" for random questions
@@ -183,7 +61,7 @@ askQuestions(const string* questions, const string* answers)
   int randomQuestion;
   for (size_t questionsAnswered = 0; questionsAnswered < questionCount; ++questionsAnswered)
   {
-    randomQuestion = chooseIndex(answered);
+    randomQuestion = chooseIndex(answered, questionCount);
 
     //if (scanGenerator(generatorIndex, questions[randomQuestion], generatorCount))
     //  question = generateQuestion(generatorIndex, answer);
@@ -208,7 +86,7 @@ askQuestions(const string* questions, const string* answers)
 }
 
 int
-chooseIndex(const bool* chosen)
+chooseIndex(const bool* chosen, size_t questionCount)
 {
   int randomIndex;
 
@@ -221,7 +99,7 @@ chooseIndex(const bool* chosen)
 }
 
 bool
-scanGenerator (int& i, const string& generate, int genCount)
+scanGenerator (const string* generators, int& i, const string& generate, int genCount)
 {
   for (i = 0; i < genCount; ++i)
     if (generators[i] == generate)
@@ -232,5 +110,6 @@ scanGenerator (int& i, const string& generate, int genCount)
 string
 generateQuestion (int index, string& answer) 
 {
+  // TODO
   return "Hello World!";
 }
