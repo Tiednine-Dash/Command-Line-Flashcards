@@ -1,9 +1,4 @@
-#include <iostream>
 #include <string>
-#include <cstdlib>
-#include <ctime>
-#include <vector>
-#include <fstream>
 #include "generations.hpp"
 
 #define MAX_QUESTIONS 512

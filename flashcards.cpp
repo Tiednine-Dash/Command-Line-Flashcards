@@ -1,3 +1,7 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <fstream>
 #include "flashcards.hpp"
 
 using std::cout;
@@ -7,7 +11,6 @@ using std::string;
 using std::time;
 using std::srand;
 using std::rand;
-using std::vector;
 using std::ifstream;
 
 int
