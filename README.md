@@ -5,7 +5,4 @@ Very simple program to simulate the use of flashcards within the command line.
 Compile the program with your favorite C++ compiler,
 Type your question entries in a file named "questions.txt" seperated by newlines in the same directory
 Type your answer entries in a file named "answers.txt" seperated by newlines, also in the same directory
-
-# Other
-Feel free to share and modify the code to your liking.
-Planning to slowly add features throughout the rest of the year.
+Ex: For compiling with GCC, you can run g++ -Wall flashcardDriver.cpp flashcards.cpp generations.cpp -o flashcardDriver
