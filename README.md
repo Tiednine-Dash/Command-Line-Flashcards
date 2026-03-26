@@ -13,3 +13,5 @@ Type your answer entries in a file named "answers.txt" seperated by newlines, al
 Undefined behaviour if "questions.txt" and/or "answers.txt" are not found.
 Program terminates with "questions.txt" and "answers.txt" are empty.
 No ability to generate random questions for user, yet.
+If characters other than ENTER are typed before hitting enter, questions will be skipped.
+There is no indication on number of "flashcards" left or in total.
