@@ -4,6 +4,8 @@
 #include <ctime>
 #include <fstream>
 #include <iostream>
+#include <print>
+#include <string>
 
 /************************************************************/
 // Local Includes
@@ -12,9 +14,9 @@
 /************************************************************/
 // Using declarations
 using std::cin;
-using std::cout;
-using std::endl;
 using std::ifstream;
+using std::print;
+using std::println;
 using std::rand;
 using std::srand;
 using std::string;
@@ -38,7 +40,8 @@ scanTextFile (string arrOut[MAX_QUESTIONS], string file)
     fileIn.close ();
   }
   else
-    cout << file << " isn't open" << endl;
+    println (stderr, "{} isn't open", file);
+
   return lineCount;
 }
 
@@ -88,7 +91,7 @@ askQuestions (const string* questions,
     question = questions[randomQuestion];
 
     // Ask question
-    cout << questionsAnswered + 1 << ". " << question;
+    print ("{}. {}", questionsAnswered + 1, question);
 
     // Wait user enter
     // TODO Add some feature to keep track of number of correct and wrong
@@ -96,11 +99,11 @@ askQuestions (const string* questions,
     cin.get ();
 
     // Print answer
-    cout << answers[randomQuestion] << endl;
+    println ("{}", answers[randomQuestion]);
 
     // Set question to answered
     answered[randomQuestion] = true;
-    cout << endl;
+    println ();
   }
 }
 
