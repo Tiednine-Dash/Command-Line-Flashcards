@@ -1,6 +1,13 @@
+/************************************************************/
+// System Includes
 #include <stack>
+
+/************************************************************/
+// Local Includes
 #include "generations.hpp"
 
+/************************************************************/
+// Function prototypes / global vars / type definitions
 std::string
 convertDecimalToHex (size_t decimal)
 {
@@ -14,16 +21,16 @@ convertDecimalToBase (size_t decimal, int base)
 
   do
   {
-    s.push(DIGITS[decimal % base]);
+    s.push (DIGITS[decimal % base]);
     decimal /= base;
-  } while(decimal > 0);
+  } while (decimal > 0);
 
   std::string output = "";
 
-  while (!s.empty())
+  while (!s.empty ())
   {
-    output += s.top();
-    s.pop();
+    output += s.top ();
+    s.pop ();
   }
 
   return output;
