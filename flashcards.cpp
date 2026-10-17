@@ -1,11 +1,13 @@
 /************************************************************/
 // System includes
+#include <algorithm>
 #include <cstdlib>
 #include <ctime>
 #include <fstream>
 #include <iostream>
 #include <print>
 #include <string>
+#include <vector>
 
 /************************************************************/
 // Local Includes
@@ -13,56 +15,46 @@
 
 /************************************************************/
 // Using declarations
-using std::cin;
-using std::ifstream;
 using std::print;
 using std::println;
-using std::rand;
-using std::srand;
 using std::string;
-using std::time;
+using std::vector;
 
 /************************************************************/
 // Function prototypes / global vars / type definitions
-int
-scanTextFile (string arrOut[MAX_QUESTIONS], string file)
+vector<string>
+scanTextFile (string path)
 {
-  int lineCount = 0;
-  ifstream fileIn (file);
+  std::ifstream file (path);
 
-  if (fileIn.is_open ())
+  if (!file.is_open ())
   {
-    string line;
-
-    for (int i = 0; !fileIn.fail () || i >= MAX_QUESTIONS; ++i, ++lineCount)
-      getline (fileIn, arrOut[i]);
-
-    fileIn.close ();
+    println (stderr, "{} isn't open", path);
+    return {};
   }
-  else
-    println (stderr, "{} isn't open", file);
 
-  return lineCount;
-}
+  const long lineCount { std::count (
+    std::istreambuf_iterator<char> (file), {}, '\n') };
 
-bool*
-initBools (bool value)
-{
-  static bool arrOut[MAX_QUESTIONS];
+  file.clear ();
+  file.seekg (0);
 
-  for (int i = 0; i < MAX_QUESTIONS; ++i)
-    arrOut[i] = value;
+  vector<string> lines;
+  lines.reserve (lineCount);
 
-  return arrOut;
+  for (string s; std::getline (file, s);)
+    lines.push_back (std::move (s));
+
+  return lines;
 }
 
 void
-askQuestions (const string* questions,
-              const string* answers,
-              size_t questionCount)
+askQuestions (const vector<string>& questions, const vector<string>& answers)
 {
-  bool* answered = initBools (false);
+  size_t questionCount = questions.size ();
+  vector<bool> answered (questionCount, false);
   string question, answer;
+
   // size_t generatorIndex, generatorCount;
 
   // TODO
@@ -77,11 +69,10 @@ askQuestions (const string* questions,
   // Set "seed" for random questions
   srand (time (0));
 
-  int randomQuestion;
-  for (size_t questionsAnswered = 0; questionsAnswered < questionCount;
+  for (size_t questionsAnswered { 0 }; questionsAnswered < questionCount;
        ++questionsAnswered)
   {
-    randomQuestion = chooseIndex (answered, questionCount);
+    int randomQuestion { chooseIndex (answered, questionCount) };
 
     // if (scanGenerator(generatorIndex, questions[randomQuestion],
     // generatorCount))
@@ -96,7 +87,7 @@ askQuestions (const string* questions,
     // Wait user enter
     // TODO Add some feature to keep track of number of correct and wrong
     // answers
-    cin.get ();
+    std::cin.get ();
 
     // Print answer
     println ("{}", answers[randomQuestion]);
@@ -108,7 +99,7 @@ askQuestions (const string* questions,
 }
 
 int
-chooseIndex (const bool* chosen, size_t questionCount)
+chooseIndex (const std::vector<bool>& chosen, size_t questionCount)
 {
   int randomIndex;
 
@@ -120,21 +111,21 @@ chooseIndex (const bool* chosen, size_t questionCount)
   return randomIndex;
 }
 
-bool
-scanGenerator (const string* generators,
-               int& i,
-               const string& generate,
-               int genCount)
-{
-  for (i = 0; i < genCount; ++i)
-    if (generators[i] == generate)
-      return true;
-  return false;
-}
-
-string
-generateQuestion (int index, string& answer)
-{
-  // TODO
-  return "Hello World!";
-}
+// bool
+// scanGenerator (const string* generators,
+//                int& i,
+//                const string& generate,
+//                int genCount)
+// {
+//   for (i = 0; i < genCount; ++i)
+//     if (generators[i] == generate)
+//       return true;
+//   return false;
+// }
+//
+// string
+// generateQuestion (int index, string& answer)
+// {
+//   // TODO
+//   return "Hello World!";
+// }

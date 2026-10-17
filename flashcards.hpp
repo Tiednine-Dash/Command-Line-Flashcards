@@ -1,7 +1,14 @@
-#include "generations.hpp"
+/************************************************************/
+// System includes
 #include <string>
+#include <vector>
 
-#define MAX_QUESTIONS 512
+/************************************************************/
+// Function prototypes / global vars / type definitions
+#include "generations.hpp"
+
+/************************************************************/
+// Function prototypes / global vars / type definitions
 
 /*
  * NAME
@@ -14,20 +21,8 @@
  * where the text file will be located. This function returns an integer, which
  * is how many lines were scanned;
  */
-int
-scanTextFile (std::string arrOut[MAX_QUESTIONS], std::string file);
-
-/*
- * NAME
- *   initBools - initialize an array of booleans to value
- *
- * DESCRIPTION
- *   initBools takes one parameter, a boolean value.
- *   This function will return an array of booleans that is initialized to all
- * be the same value as value.
- */
-bool*
-initBools (bool value);
+std::vector<std::string>
+scanTextFile (std::string path);
 
 /*
  * NAME
@@ -39,9 +34,8 @@ initBools (bool value);
  * we are.
  */
 void
-askQuestions (const std::string* questions,
-              const std::string* answers,
-              size_t questionCount);
+askQuestions (const std::vector<std::string>& questions,
+              const std::vector<std::string>& answers);
 
 /*
  * NAME
@@ -54,7 +48,7 @@ askQuestions (const std::string* questions,
  * askQuestions function.
  */
 int
-chooseIndex (const bool* chosen, size_t questionCount);
+chooseIndex (const std::vector<bool>& chosen, size_t questionCount);
 
 /*
  * NAME
@@ -69,11 +63,11 @@ chooseIndex (const bool* chosen, size_t questionCount);
  *   This function will return a bool, true if a match was found, false if a
  * match wasn't found.
  */
-bool
-scanGenerator (const std::string* generators,
-               int& i,
-               const std::string& generate,
-               int genCount);
+// bool
+// scanGenerator (const std::string* generators,
+//                int& i,
+//                const std::string& generate,
+//                int genCount);
 
 /*
  * NAME
@@ -88,5 +82,5 @@ scanGenerator (const std::string* generators,
  * will return a string, which is the question that will be displayed to the
  * user.
  */
-std::string
-generateQuestion (int index, const std::string& generate);
+// std::string
+// generateQuestion (int index, const std::string& generate);
