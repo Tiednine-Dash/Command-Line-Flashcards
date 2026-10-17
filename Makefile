@@ -2,7 +2,7 @@
 CXX = g++
 
 # Compiler flags
-CXXFLAGS = -Wall -O3 -std=c++26
+CXXFLAGS = -Wall -O3 -std=c++26 -march=native
 
 # Target executable
 TARGET = flashcardDriver
