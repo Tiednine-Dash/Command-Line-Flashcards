@@ -2,7 +2,8 @@
 CXX = g++
 
 # Compiler flags
-CXXFLAGS = -Wall -O3 -std=c++26 -march=native
+CXXFLAGS = -Wall -Werror -O3 -std=c++26 -march=native
+# CXXFLAGS = -Wall -g -std=c++26
 
 # Target executable
 TARGET = flashcardDriver
@@ -27,6 +28,10 @@ $(TARGET): $(OBJS)
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+-include $(OBJS:.o=.d)
+
+.PHONY: all clean
+
 # Clean rule to remove generated files
 clean:
-	del $(TARGET_DEL) $(OBJS)
+	rm -f $(TARGET) $(OBJS) $(OBJS:.o=.d)
