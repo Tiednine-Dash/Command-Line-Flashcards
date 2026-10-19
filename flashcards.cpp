@@ -82,7 +82,7 @@ askQuestions (const vector<string>& questions, const vector<string>& answers)
     question = questions[randomQuestion];
 
     // Ask question
-    print ("{}. {}", questionsAnswered + 1, question);
+    print ("{}/{}. {}", questionsAnswered + 1, questionCount, question);
 
     // Wait user enter
     // TODO Add some feature to keep track of number of correct and wrong
